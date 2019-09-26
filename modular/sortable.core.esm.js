@@ -2906,13 +2906,11 @@ var drop = function drop(_ref) {
   var target = document.elementFromPoint(touch.clientX, touch.clientY);
   unhideGhostForTarget();
 
-  if (toSortable && !toSortable.el.contains(target)) {
-    dispatchSortableEvent('spill');
-    this.onSpill({
-      dragEl: dragEl,
-      putSortable: putSortable
-    });
-  }
+  dispatchSortableEvent('spill');
+  this.onSpill({
+    dragEl: dragEl,
+    putSortable: putSortable
+  });
 };
 
 function Revert() {}
@@ -2926,11 +2924,6 @@ Revert.prototype = {
   onSpill: function onSpill(_ref3) {
     var dragEl = _ref3.dragEl,
         putSortable = _ref3.putSortable;
-    this.sortable.captureAnimationState();
-
-    if (putSortable) {
-      putSortable.captureAnimationState();
-    }
 
     var nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
 
@@ -2938,12 +2931,6 @@ Revert.prototype = {
       this.sortable.el.insertBefore(dragEl, nextSibling);
     } else {
       this.sortable.el.appendChild(dragEl);
-    }
-
-    this.sortable.animateAll();
-
-    if (putSortable) {
-      putSortable.animateAll();
     }
   },
   drop: drop
