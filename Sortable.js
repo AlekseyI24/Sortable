@@ -1,5 +1,5 @@
 /**!
- * Sortable 1.10.0
+ * Sortable 1.10.0-lr
  * @author	RubaXa   <trash@rubaxa.org>
  * @author	owenm    <owen23355@gmail.com>
  * @license MIT
@@ -132,7 +132,7 @@
     throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
-  var version = "1.10.0";
+  var version = "1.10.0-lr";
 
   function userAgent(pattern) {
     return !!
@@ -2906,19 +2906,15 @@
         dispatchSortableEvent = _ref.dispatchSortableEvent,
         hideGhostForTarget = _ref.hideGhostForTarget,
         unhideGhostForTarget = _ref.unhideGhostForTarget;
-    var toSortable = putSortable || activeSortable;
     hideGhostForTarget();
     var touch = originalEvent.changedTouches && originalEvent.changedTouches.length ? originalEvent.changedTouches[0] : originalEvent;
     var target = document.elementFromPoint(touch.clientX, touch.clientY);
     unhideGhostForTarget();
-
-    if (toSortable && !toSortable.el.contains(target)) {
-      dispatchSortableEvent('spill');
-      this.onSpill({
-        dragEl: dragEl,
-        putSortable: putSortable
-      });
-    }
+    dispatchSortableEvent('spill');
+    this.onSpill({
+      dragEl: dragEl,
+      putSortable: putSortable
+    });
   };
 
   function Revert() {}
@@ -2932,24 +2928,12 @@
     onSpill: function onSpill(_ref3) {
       var dragEl = _ref3.dragEl,
           putSortable = _ref3.putSortable;
-      this.sortable.captureAnimationState();
-
-      if (putSortable) {
-        putSortable.captureAnimationState();
-      }
-
       var nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
 
       if (nextSibling) {
         this.sortable.el.insertBefore(dragEl, nextSibling);
       } else {
         this.sortable.el.appendChild(dragEl);
-      }
-
-      this.sortable.animateAll();
-
-      if (putSortable) {
-        putSortable.animateAll();
       }
     },
     drop: drop
