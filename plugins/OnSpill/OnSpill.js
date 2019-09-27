@@ -15,10 +15,8 @@ const drop = function({
 	let touch = originalEvent.changedTouches && originalEvent.changedTouches.length ? originalEvent.changedTouches[0] : originalEvent;
 	let target = document.elementFromPoint(touch.clientX, touch.clientY);
 	unhideGhostForTarget();
-	if (toSortable && !toSortable.el.contains(target)) {
-		dispatchSortableEvent('spill');
-		this.onSpill({ dragEl, putSortable });
-	}
+	dispatchSortableEvent('spill');
+	this.onSpill({ dragEl, putSortable });
 };
 
 function Revert() {}
@@ -29,20 +27,12 @@ Revert.prototype = {
 		this.startIndex = oldDraggableIndex;
 	},
 	onSpill({ dragEl, putSortable }) {
-		this.sortable.captureAnimationState();
-		if (putSortable) {
-			putSortable.captureAnimationState();
-		}
 		let nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
 
 		if (nextSibling) {
 			this.sortable.el.insertBefore(dragEl, nextSibling);
 		} else {
 			this.sortable.el.appendChild(dragEl);
-		}
-		this.sortable.animateAll();
-		if (putSortable) {
-			putSortable.animateAll();
 		}
 	},
 	drop
