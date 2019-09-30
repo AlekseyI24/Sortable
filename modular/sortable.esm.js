@@ -1,5 +1,5 @@
 /**!
- * Sortable 1.10.0-lr
+ * Sortable 1.10.1-lr
  * @author	RubaXa   <trash@rubaxa.org>
  * @author	owenm    <owen23355@gmail.com>
  * @license MIT
@@ -126,7 +126,7 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
-var version = "1.10.0-lr";
+var version = "1.10.1-lr";
 
 function userAgent(pattern) {
   return !!
@@ -2922,12 +2922,17 @@ Revert.prototype = {
   onSpill: function onSpill(_ref3) {
     var dragEl = _ref3.dragEl,
         putSortable = _ref3.putSortable;
-    var nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
 
-    if (nextSibling) {
-      this.sortable.el.insertBefore(dragEl, nextSibling);
-    } else {
-      this.sortable.el.appendChild(dragEl);
+    if (this.startIndex != -1) {
+      var nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
+
+      if (nextSibling) {
+        this.sortable.el.insertBefore(dragEl, nextSibling);
+      } else {
+        this.sortable.el.appendChild(dragEl);
+      }
+
+      this.startIndex = -1;
     }
   },
   drop: drop

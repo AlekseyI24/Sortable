@@ -27,12 +27,16 @@ Revert.prototype = {
 		this.startIndex = oldDraggableIndex;
 	},
 	onSpill({ dragEl, putSortable }) {
-		let nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
+		if(this.startIndex != -1)
+		{
+			let nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
 
-		if (nextSibling) {
-			this.sortable.el.insertBefore(dragEl, nextSibling);
-		} else {
-			this.sortable.el.appendChild(dragEl);
+			if (nextSibling) {
+				this.sortable.el.insertBefore(dragEl, nextSibling);
+			} else {
+				this.sortable.el.appendChild(dragEl);
+			}
+			this.startIndex = -1;
 		}
 	},
 	drop
