@@ -27,7 +27,7 @@ Revert.prototype = {
 		this.startIndex = oldDraggableIndex;
 	},
 	onSpill({ dragEl, putSortable }) {
-		if(this.startIndex != -1)
+		if(this.startIndex != -1 && this.startIndex != null)
 		{
 			let nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
 
